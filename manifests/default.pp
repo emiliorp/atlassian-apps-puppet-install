@@ -37,8 +37,8 @@ class common_dependencies {
   exec {
     "accept_license":
     command => "echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections && echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections",
-    cwd => "/home/vagrant",
-    user => "vagrant",
+    cwd => "${atlassian_home}",
+    user => "erp",
     path    => "/usr/bin/:/bin/",
     require => Package["curl"],
     before => Package["oracle-java7-installer"],
@@ -153,8 +153,8 @@ class jira {
   exec {
     "create_jira_home":
     command => "mkdir -p ${jira_home}",
-    cwd => "/vagrant",
-    user => "vagrant",
+    cwd => "$atlassian_home",
+    user => "erp",
     path    => "/usr/bin/:/bin/",
     require => Exec["download_jira"],
     logoutput => true,
@@ -164,9 +164,9 @@ class jira {
   exec {
     "start_jira_in_background":
     environment => "JIRA_HOME=${jira_home}",
-    command => "/vagrant/atlassian-jira-${jira_version}-standalone/bin/start-jira.sh &",
-    cwd => "/vagrant",
-    user => "vagrant",
+    command => "$atlassian_home/atlassian-jira-${jira_version}-standalone/bin/start-jira.sh &",
+    cwd => "$atlassian_home",
+    user => "erp",
     path    => "/usr/bin/:/bin/",
     require => [ Package["oracle-java7-installer"],
                  Exec["accept_license"],
