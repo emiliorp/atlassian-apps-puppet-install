@@ -13,7 +13,7 @@ class common_dependencies {
  
   file { 'atlassianhome':
     ensure => 'directory',
-    path => ${atlassian_home},
+    path => "${atlassian_home}",
     owner  => 'erp',
     group  => 'erp',
     mode   => '0755',
