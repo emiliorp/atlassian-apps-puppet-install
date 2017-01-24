@@ -5,7 +5,7 @@ define append_if_no_such_line($file, $line, $refreshonly = 'false') {
       refreshonly => $refreshonly,
    }
 }
-$atlassian_home="/apt/atlassian"
+$atlassian_home="/opt/atlassian"
 class common_dependencies {
   include apt
   apt::ppa { "ppa:webupd8team/java": }
