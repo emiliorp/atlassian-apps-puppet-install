@@ -9,7 +9,16 @@ $atlassian_home="/apt/atlassian"
 class common_dependencies {
   include apt
   apt::ppa { "ppa:webupd8team/java": }
-  
+ 
+ 
+  file { '${atlassian_home}':
+    ensure => 'directory',
+    owner  => 'erp',
+    group  => 'erp',
+    mode   => '0755',
+  }
+ 
+ 
   exec { 'apt-get update':
     command => '/usr/bin/apt-get update',
     before => Apt::Ppa["ppa:webupd8team/java"],
@@ -40,7 +49,7 @@ class common_dependencies {
     cwd => "${atlassian_home}",
     user => "erp",
     path    => "/usr/bin/:/bin/",
-    require => Package["curl"],
+    require => Package["curl"], File[${atlassian_home}]
     before => Package["oracle-java7-installer"],
     logoutput => true,
   }
