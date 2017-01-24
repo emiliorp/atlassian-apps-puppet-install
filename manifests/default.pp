@@ -5,7 +5,7 @@ define append_if_no_such_line($file, $line, $refreshonly = 'false') {
       refreshonly => $refreshonly,
    }
 }
-
+$atlassian_home="/apt/atlassian"
 class common_dependencies {
   include apt
   apt::ppa { "ppa:webupd8team/java": }
@@ -136,18 +136,18 @@ class confluence {
 class jira {
   include common_dependencies
 
-  $jira_home = "/vagrant/jira-home"
-  $jira_version = "5.2.10"
+  $jira_home = "${atlassian_home}/jira"
+  $jira_version = "6.4.14"
 
   exec {
     "download_jira":
-    command => "curl -L http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-${jira_version}.tar.gz | tar zx",
-    cwd => "/vagrant",
-    user => "vagrant",
+    command => "curl -L https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-${jira_version}-war.tar.gz | tar zx",
+    cwd => "${atlassian_home}",
+    user => "erp",
     path    => "/usr/bin/:/bin/",
     require => Exec["accept_license"],
     logoutput => true,
-    creates => "/vagrant/atlassian-jira-${jira_version}-standalone",
+    creates => "${atlassian_home}/atlassian-jira-${jira_version}-standalone",
   }
 
   exec {
@@ -219,7 +219,7 @@ class stash {
   }
 }
 
-include bamboo
-include confluence
+#include bamboo
+#include confluence
 include jira
-include stash
+#include stash
