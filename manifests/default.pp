@@ -11,8 +11,9 @@ class common_dependencies {
   apt::ppa { "ppa:webupd8team/java": }
  
  
-  file { '${atlassian_home}':
+  file { 'atlassianhome':
     ensure => 'directory',
+    path => ${atlassian_home},
     owner  => 'erp',
     group  => 'erp',
     mode   => '0755',
@@ -49,7 +50,7 @@ class common_dependencies {
     cwd => "${atlassian_home}",
     user => "erp",
     path    => "/usr/bin/:/bin/",
-    require => [ Package["curl"], File["${atlassian_home}"] ],
+    require => [ Package["curl"], File["atlassianhome"] ],
     before => Package["oracle-java7-installer"],
     logoutput => true,
   }
