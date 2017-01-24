@@ -49,7 +49,7 @@ class common_dependencies {
     cwd => "${atlassian_home}",
     user => "erp",
     path    => "/usr/bin/:/bin/",
-    require => Package["curl"], File[${atlassian_home}]
+    require => Package["curl"], File[${atlassian_home}],
     before => Package["oracle-java7-installer"],
     logoutput => true,
   }
