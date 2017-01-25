@@ -5,6 +5,26 @@ define append_if_no_such_line($file, $line, $refreshonly = 'false') {
       refreshonly => $refreshonly,
    }
 }
+
+class {'::mysql::server':
+  root_password    => 'tOr3#m0YPfy6l2$HG8D7',
+  override_options => { 'mysqld' => 
+  { 'max_connections' => '1024', 'character-set-server' => 'utf8', 'collation-server' => 'utf8_spanish_ci', 
+   'default-storage-engine' => 'INNODB', 'max_allowed_packet' => '256M', 'innodb_log_file_size' => '2GB',
+   } },
+  databases => { 'jira' => {ensure  => 'present', charset => 'utf8', collate => 'utf8_spanish_ci',
+  mysql_user => { 'erp@127.0.0.1' =>{  ensure => 'present'} },
+ }
+ 
+mysql_user { 'erp@127.0.0.1':
+  ensure                   => 'present',
+  max_connections_per_hour => '0',
+  max_queries_per_hour     => '0',
+  max_updates_per_hour     => '0',
+  max_user_connections     => '0',
+  require => 
+}
+
 $atlassian_home="/opt/atlassian"
 class common_dependencies {
   include apt
