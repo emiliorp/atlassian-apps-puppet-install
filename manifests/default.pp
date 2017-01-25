@@ -161,16 +161,16 @@ class jira {
     creates => "${jira_home}",
   }
 
-  # exec {
-  #  "create_jira_home":
-   # command => "mkdir -p ${jira_home}",
-    #cwd => "$atlassian_home",
-    #user => "erp",
-    #path    => "/usr/bin/:/bin/",
-    #require => Exec["download_jira"],
-    #logoutput => true,
-    #creates => "${jira_home}",
-  #}
+   exec {
+    "create_jira_home":
+    command => "mkdir -p ${jira_home}",
+    cwd => "$atlassian_home",
+    user => "erp",
+    path    => "/usr/bin/:/bin/",
+    require => Exec["download_jira"],
+    logoutput => true,
+    creates => "${jira_home}",
+  }
   
 
   exec {
