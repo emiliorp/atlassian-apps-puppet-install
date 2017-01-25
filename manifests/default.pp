@@ -153,7 +153,7 @@ class jira {
 
   exec {
     "download_jira":
-    command => "curl -L https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-${jira_version}.tar.gz | tar zx",
+    command => "curl -L https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-software-${jira_version}.tar.gz | tar zx",
     cwd => "${atlassian_home}",
     user => "erp",
     path    => "/usr/bin/:/bin/",
