@@ -145,36 +145,38 @@ class confluence {
 
 class jira {
   include common_dependencies
-
-  $jira_home = "${atlassian_home}/jira"
+  
   $jira_version = "6.4.14"
+  $jira_home = "${atlassian_home}/atlassian-jira-${jira_version}-standalone"
+  
 
   exec {
     "download_jira":
-    command => "curl -L https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-${jira_version}-war.tar.gz | tar zx",
+    command => "curl -L https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-${jira_version}.tar.gz | tar zx",
     cwd => "${atlassian_home}",
     user => "erp",
     path    => "/usr/bin/:/bin/",
     require => Exec["accept_license"],
     logoutput => true,
-    creates => "${atlassian_home}/atlassian-jira-${jira_version}-standalone",
-  }
-
-  exec {
-    "create_jira_home":
-    command => "mkdir -p ${jira_home}",
-    cwd => "$atlassian_home",
-    user => "erp",
-    path    => "/usr/bin/:/bin/",
-    require => Exec["download_jira"],
-    logoutput => true,
     creates => "${jira_home}",
   }
+
+  # exec {
+  #  "create_jira_home":
+   # command => "mkdir -p ${jira_home}",
+    #cwd => "$atlassian_home",
+    #user => "erp",
+    #path    => "/usr/bin/:/bin/",
+    #require => Exec["download_jira"],
+    #logoutput => true,
+    #creates => "${jira_home}",
+  #}
+  
 
   exec {
     "start_jira_in_background":
     environment => "JIRA_HOME=${jira_home}",
-    command => "$atlassian_home/atlassian-jira-${jira_version}-standalone/bin/start-jira.sh &",
+    command => "$jira_home/bin/start-jira.sh &",
     cwd => "$atlassian_home",
     user => "erp",
     path    => "/usr/bin/:/bin/",
