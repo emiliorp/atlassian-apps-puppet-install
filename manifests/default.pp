@@ -147,7 +147,8 @@ class jira {
   include common_dependencies
   
   $jira_version = "6.4.14"
-  $jira_home = "${atlassian_home}/atlassian-jira-${jira_version}-standalone"
+  $webappjira = "${atlassian_home}/atlassian-jira-${jira_version}-standalone"
+  $jira_home="${atlassian_home}/jira"
   
 
   exec {
@@ -158,7 +159,7 @@ class jira {
     path    => "/usr/bin/:/bin/",
     require => Exec["accept_license"],
     logoutput => true,
-    creates => "${jira_home}",
+    creates => "${webappjira}",
   }
 
    exec {
@@ -176,7 +177,7 @@ class jira {
   exec {
     "start_jira_in_background":
     environment => "JIRA_HOME=${jira_home}",
-    command => "$jira_home/bin/start-jira.sh &",
+    command => "$webappjira/bin/start-jira.sh &",
     cwd => "$atlassian_home",
     user => "erp",
     path    => "/usr/bin/:/bin/",
