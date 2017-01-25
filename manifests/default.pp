@@ -39,7 +39,7 @@ class common_dependencies {
     before => Apt::Ppa["ppa:webupd8team/java"],
   }
 
-  package { ["oracle-java7-installer"]:
+  package { ["oracle-java8-installer"]:
     ensure => present,
     require => Exec["apt-get update 2"],
   }
@@ -51,7 +51,7 @@ class common_dependencies {
     user => "root",
     path    => "/usr/bin/:/bin/",
     require => [ Package["curl"], File["atlassianhome"] ],
-    before => Package["oracle-java7-installer"],
+    before => Package["oracle-java8-installer"],
     logoutput => true,
   }
 
