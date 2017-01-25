@@ -146,7 +146,7 @@ class confluence {
 class jira {
   include common_dependencies
   
-  $jira_version = "6.4.14"
+  $jira_version = "7.3.0"
   $webappjira = "${atlassian_home}/atlassian-jira-${jira_version}-standalone"
   $jira_home="${atlassian_home}/jira"
   
